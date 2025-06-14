@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Album Cinta Kita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #fff0f5;
+      color: #333;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 30px 10px;
+      background: #ff80ab;
+      color: #fff;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      position: relative;
+      z-index: 2;
+    }
+    .opening {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffc1e3, #ff80ab);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      z-index: 999;
+      transition: opacity 1s ease;
+    }
+    .opening button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1em;
+      background: white;
+      color: #ff4081;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .photo-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .photo-card:hover {
+      transform: scale(1.03);
+    }
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .caption {
+      padding: 15px;
+      font-size: 1em;
+      text-align: center;
+      background: #ffe0f0;
+      font-style: italic;
+    }
+    .marquee {
+      background: #ffb6c1;
+      padding: 10px;
+      color: white;
+      font-size: 1.1em;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #ff80ab;
+      color: white;
+      font-size: 0.9em;
+      margin-top: 30px;
+    }
+
+    /* Penutup */
+    .penutup {
+      padding: 60px 20px;
+      background: linear-gradient(to bottom, #ffe4ec, #fff5f7);
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .penutup-container {
+      max-width: 700px;
+      margin: auto;
+      font-size: 1.2em;
+      font-family: 'Great Vibes', cursive;
+      color: #c2185b;
+      line-height: 1.6em;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+    #penutupText {
+      opacity: 0;
+      animation: revealText 6s steps(50) 1 forwards;
+      white-space: pre-line;
+    }
+    @keyframes revealText {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    /* Hati beterbangan */
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Halaman Pembuka -->
+<div class="opening" id="opening">
+  <div>Untukmu Sayang 💖</div>
+  <button onclick="startAlbum()">Lihat Album</button>
+</div>
+
+<!-- Efek Hati -->
+<div class="hearts" id="hearts"></div>
+
+<!-- Musik Autoplay -->
+<audio id="bgm" autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<!-- Judul -->
+<header>Album Cinta Kita</header>
+
+<!-- Kata-Kata Berjalan -->
+<div class="marquee">
+  <span>Aku mencintaimu bukan karena siapa kamu, tapi karena siapa aku saat bersamamu... 💕</span>
+</div>
+
+<!-- Galeri Foto -->
+<section class="gallery">
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/ZYcDFjx5/IMG-20250614-WA0030.jpg" />
+    <div class="caption">"Cinta adalah ketika kebahagiaan orang lain lebih penting dari milikmu sendiri."</div>
+  </div>
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/fRkFbXXT/IMG-20250614-WA0031.jpg" />
+    <div class="caption">"Sejak bersamamu, setiap hari terasa seperti puisi cinta."</div>
+  </div>
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/ZYcDFjx5/IMG-20250614-WA0030.jpg"" />
+    <div class="caption">"Pelukmu adalah tempat favoritku untuk kembali pulang."</div>
+  </div>
+</section>
+
+<!-- Penutup Romantis -->
+<section class="penutup">
+  <div class="penutup-container">
+    <p id="penutupText">
+      Terima kasih telah hadir dalam kisah sederhana ini...  
+      Setiap senyummu adalah puisi, setiap tatapanmu adalah doa.  
+      Aku tak butuh hari istimewa untuk mencintaimu...  
+      Karena bagiku, mencintaimu adalah rutinitas paling indah yang tak pernah membosankan. Love you Riska Nurlativa Widayanti 💖
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>© 2025 Abdullah Arif </footer>
+
+<!-- Script -->
+<script>
+  function startAlbum() {
+    document.getElementById('opening').style.opacity = 0;
+    setTimeout(() => document.getElementById('opening').style.display = 'none', 1000);
+    document.getElementById('bgm').play();
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+    document.getElementById("hearts").appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
