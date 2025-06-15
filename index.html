@@ -3,467 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cinta Selamanya</title>
+  <title>Album Cinta Kita</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet">
-
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(to right, #ffd6e0, #fff0f5);
-      overflow-x: hidden;
-      transition: background 0.5s ease;
-      position: relative;
-      min-height: 100vh;
-      padding-bottom: 50px; /* for footer */
-    }
-
-    /* Mode gelap */
-    body.dark-mode {
-      background: linear-gradient(to right, #2c2c2c, #1a1a1a);
-      color: #eee;
-    }
-
-    .page {
-      min-height: 80vh;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 60px 20px;
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 60px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(100%);
-      transition: all 0.6s ease;
-    }
-
-    .page.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-      position: relative;
-    }
-
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3em;
-      color: #d63384;
-      margin-bottom: 20px;
-      transition: color 0.5s ease;
-    }
-    body.dark-mode h1 {
-      color: #f88fc7;
-    }
-
-    p {
-      font-size: 1.2em;
+      background: #fff0f5;
       color: #333;
-      max-width: 700px;
-      margin: 20px auto;
-      transition: color 0.5s ease;
+      overflow-x: hidden;
     }
-    body.dark-mode p {
-      color: #ccc;
-    }
-
-    .btn {
-      margin-top: 30px;
-      background: #ff4d6d;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1em;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-      user-select: none;
-    }
-    .btn:hover {
-      background: #e63956;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-
-    /* Efek suara tombol */
-    .btn:active {
-      transform: scale(0.95);
-    }
-
-    .letter {
-      font-style: italic;
-      font-size: 1.2em;
-      color: #c2185b;
-      background: #ffe4ec;
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      min-height: 80px;
-      white-space: pre-wrap;
+    header {
       text-align: center;
-      user-select: none;
-      transition: background 0.5s ease, color 0.5s ease;
-      display: none;
+      padding: 30px 10px;
+      background: #ff80ab;
+      color: #fff;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      position: relative;
+      z-index: 2;
     }
-    body.dark-mode .letter {
-      background: #50173a;
-      color: #f8bbd0;
-      box-shadow: 0 4px 8px rgba(255,192,203,0.5);
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 15px;
-      max-width: 800px;
-      margin: 30px auto;
-      cursor: pointer;
-    }
-
-    .gallery img {
-      width: 100%;
-      border-radius: 12px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      user-select: none;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
-    .whatsapp-btn {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      background-color: #25D366;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 30px;
-      font-weight: bold;
-      user-select: none;
-      box-shadow: 0 3px 7px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
-    }
-    .whatsapp-btn:hover {
-      background-color: #1ebe57;
-    }
-
-    /* Footer */
-    footer {
+    .opening {
       position: fixed;
-      bottom: 10px;
+      top: 0; left: 0;
       width: 100%;
-      text-align: center;
-      font-size: 0.9em;
-      color: #999;
-      user-select: none;
-      transition: color 0.5s ease;
-    }
-    body.dark-mode footer {
-      color: #555;
-    }
-
-    /* Animasi Hati (partikel) interaktif */
-    .heart {
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      background: red;
-      transform: rotate(45deg);
-      animation: float 6s infinite ease-in;
-      pointer-events: none;
-      opacity: 0.8;
-      user-select: none;
-      z-index: 1;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      background: red;
-      border-radius: 50%;
-    }
-    .heart::before { top: -7px; left: 0; }
-    .heart::after { left: -7px; top: 0; }
-
-    @keyframes float {
-      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
-      100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
-    }
-
-    /* Lightbox Styles */
-    #lightboxOverlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
-      display: none;
+      height: 100%;
+      background: linear-gradient(135deg, #ffc1e3, #ff80ab);
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
-    }
-    #lightboxOverlay.active {
-      display: flex;
-    }
-    #lightboxImage {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.7);
-      user-select: none;
-    }
-    #lightboxControls {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       color: white;
-      font-size: 3em;
-      padding: 0 20px;
-      user-select: none;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      z-index: 999;
+      transition: opacity 1s ease;
+    }
+    .opening button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1em;
+      background: white;
+      color: #ff4081;
+      border: none;
+      border-radius: 25px;
       cursor: pointer;
-      transform: translateY(-50%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    #lightboxControls span {
-      background: rgba(0,0,0,0.3);
-      padding: 10px 15px;
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .photo-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .photo-card:hover {
+      transform: scale(1.03);
+    }
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .caption {
+      padding: 15px;
+      font-size: 1em;
+      text-align: center;
+      background: #ffe0f0;
+      font-style: italic;
+    }
+    .marquee {
+      background: #ffb6c1;
+      padding: 10px;
+      color: white;
+      font-size: 1.1em;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #ff80ab;
+      color: white;
+      font-size: 0.9em;
+      margin-top: 30px;
+    }
+
+    /* Penutup */
+    .penutup {
+      padding: 60px 20px;
+      background: linear-gradient(to bottom, #ffe4ec, #fff5f7);
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .penutup-container {
+      max-width: 700px;
+      margin: auto;
+      font-size: 1.2em;
+      font-family: 'Great Vibes', cursive;
+      color: #c2185b;
+      line-height: 1.6em;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+    #penutupText {
+      opacity: 0;
+      animation: revealText 6s steps(50) 1 forwards;
+      white-space: pre-line;
+    }
+    @keyframes revealText {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    /* Hati beterbangan */
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
       border-radius: 50%;
-      transition: background 0.3s ease;
     }
-    #lightboxControls span:hover {
-      background: rgba(0,0,0,0.6);
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Page 1 -->
-<div id="page1" class="page active">
-  <h1>Selamat Datang, Riska Nurlativa Widayanti 💗</h1>
-  <p>Halaman ini adalah bukti bahwa cintaku padamu tidak pernah pudar. Yuk, jelajahi bersama!</p>
-  <button class="btn" onclick="btnClick(); nextPage(2)">Lanjut ke Surat 💌</button>
+<!-- Halaman Pembuka -->
+<div class="opening" id="opening">
+  <div>Untukmu Sayang 💖</div>
+  <button onclick="startAlbum()">Lihat Album</button>
 </div>
 
-<!-- Page 2 -->
-<div id="page2" class="page">
-  <h1>Surat Cinta Untukmu 💞</h1>
-  <p>Klik untuk membuka isi hatiku yang paling dalam...</p>
-  <button id="openLetterBtn" class="btn" onclick="btnClick(); showLetterTyping()">Buka Surat Cinta</button>
-  <div id="suratCinta" class="letter"></div>
-  <button class="btn" onclick="btnClick(); nextPage(3)">Lihat Galeri Kamu 📸</button>
-</div>
+<!-- Efek Hati -->
+<div class="hearts" id="hearts"></div>
 
-<!-- Page 3 -->
-<div id="page3" class="page">
-  <h1>Galeri Kamu</h1>
-  <p>Potret Kamu dalam bingkai waktu...</p>
-  <div class="gallery" id="gallery">
-    <img src="https://i.postimg.cc/PrCtNcpW/IMG-20250611-081614.jpg" alt="Foto 1" tabindex="0">
-    <img src="https://i.postimg.cc/KvCmTNBd/IMG-20250611-081724.jpg" alt="Foto 2" tabindex="0">
-    <img src="https://i.postimg.cc/6psNqQNK/IMG-20250611-081800.jpg" alt="Foto 3" tabindex="0">
-    <img src="https://i.postimg.cc/k5nzR610/IMG-20250611-081832.jpg" alt="Foto 4" tabindex="0">
-  </div>
-  <button class="btn" onclick="btnClick(); nextPage(4)">Penutup 💖</button>
-</div>
-
-<!-- Page 4 -->
-<div id="page4" class="page">
-  <h1>Terima Kasih Telah Mencintaiku 💘</h1>
-  <p>Kamu adalah semesta kecil yang membuat duniaku utuh.</p>
-  <a href="https://wa.me/6285766795914/?text=Aku%20sayang%20kamu%20banget!" class="whatsapp-btn" target="_blank">Kirim ke WhatsApp 💬</a>
-  <br>
-  <button class="btn" onclick="btnClick(); nextPage(1)">Ulang dari Awal 🔁</button>
-</div>
-
-<footer>©ABDULLAH ARIF 2025</footer>
-
-<!-- Lightbox untuk galeri -->
-<div id="lightboxOverlay" tabindex="0" aria-modal="true" role="dialog">
-  <img id="lightboxImage" src=" alt="Foto diperbesar">
-  <div id="lightboxControls">
-    <span id="lightboxPrev" aria-label="Sebelumnya" role="button" tabindex="0">&#10094;</span>
-    <span id="lightboxNext" aria-label="Berikutnya" role="button" tabindex="0">&#10095;</span>
-  </div>
-</div>
-
-<!-- Musik -->
-<audio id="bgm" loop>
-  <source src="https://media.vocaroo.com/mp3/1kUfAggtacPU" type="audio/mpeg">
+<!-- Musik Autoplay -->
+<audio id="bgm" autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
 
-<!-- Suara klik tombol -->
-<audio id="btnSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
+<!-- Judul -->
+<header>Album Cinta Kita</header>
 
+<!-- Kata-Kata Berjalan -->
+<div class="marquee">
+  <span>Aku mencintaimu bukan karena siapa kamu, tapi karena siapa aku saat bersamamu... 💕</span>
+</div>
+
+<!-- Galeri Foto -->
+<section class="gallery">
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/ZYcDFjx5/IMG-20250614-WA0030.jpg" />
+    <div class="caption">"Cinta adalah ketika kebahagiaan orang lain lebih penting dari milikmu sendiri."</div>
+  </div>
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/fRkFbXXT/IMG-20250614-WA0031.jpg" />
+    <div class="caption">"Sejak bersamamu, setiap hari terasa seperti puisi cinta."</div>
+  </div>
+  <div class="photo-card">
+    <img src="https://i.postimg.cc/ZYcDFjx5/IMG-20250614-WA0030.jpg" />
+    <div class="caption">"Pelukmu adalah tempat favoritku untuk kembali pulang."</div>
+  </div>
+</section>
+
+<!-- Penutup Romantis -->
+<section class="penutup">
+  <div class="penutup-container">
+    <p id="penutupText">
+      Terima kasih telah hadir dalam kisah sederhana ini...  
+      Setiap senyummu adalah puisi, setiap tatapanmu adalah doa.  
+      Aku tak butuh hari istimewa untuk mencintaimu...  
+      Karena bagiku, mencintaimu adalah rutinitas paling indah yang tak pernah membosankan. Love you Riska Nurlativa Widayanti 💖
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>© 2025 Abdullah Arif </footer>
+
+<!-- Script -->
 <script>
-  const audio = document.getElementById("bgm");
-  let audioStarted = false;
+  function startAlbum() {
+    document.getElementById('opening').style.opacity = 0;
+    setTimeout(() => document.getElementById('opening').style.display = 'none', 1000);
+    document.getElementById('bgm').play();
+  }
 
-  // Heart particles
   function createHeart() {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.top = (window.innerHeight + 20) + 'px';
-    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-    document.body.appendChild(heart);
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+    document.getElementById("hearts").appendChild(heart);
     setTimeout(() => heart.remove(), 6000);
   }
   setInterval(createHeart, 300);
-
-  // Smooth page transition
-  function nextPage(n) {
-    // Stop any typing effect when page changes
-    if (typingInterval) clearInterval(typingInterval);
-    suratCintaDiv.textContent = '';
-    suratCintaDiv.style.display = 'none';
-    openLetterBtn.style.display = 'inline-block';
-
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(p => {
-      p.classList.remove('active');
-      p.style.position = 'absolute';
-      p.style.opacity = 0;
-      p.style.pointerEvents = 'none';
-      p.style.transform = 'translateX(100%)';
-    });
-    const newPage = document.getElementById('page' + n);
-    newPage.classList.add('active');
-    newPage.style.position = 'relative';
-    newPage.style.opacity = 1;
-    newPage.style.pointerEvents = 'auto';
-    newPage.style.transform = 'translateX(0)';
-
-    // Autoplay audio hanya sekali
-    if (!audioStarted) {
-      audio.play().catch(() => {});
-      audioStarted = true;
-    }
-  }
-
-  // Typing effect untuk surat cinta
-  const suratCintaText = `"Setiap hariku dimulai dan diakhiri dengan bayangmu. Kau bukan hanya seseorang yang hadir, tapi alasan di balik senyum dan semangatku."`;
-  const suratCintaDiv = document.getElementById('suratCinta');
-  const openLetterBtn = document.getElementById('openLetterBtn');
-  let typingInterval;
-
-  function showLetterTyping() {
-    openLetterBtn.style.display = 'none';
-    suratCintaDiv.style.display = 'block';
-    suratCintaDiv.textContent = '';
-    let i = 0;
-    typingInterval = setInterval(() => {
-      if (i < suratCintaText.length) {
-        suratCintaDiv.textContent += suratCintaText.charAt(i);
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 40);
-  }
-
-  // Suara klik tombol
-  const btnSound = document.getElementById('btnSound');
-  function btnClick() {
-    btnSound.currentTime = 0;
-    btnSound.play();
-  }
-
-  // Mode gelap otomatis (waktu malam 19:00 - 6:00)
-  function checkDarkMode() {
-    const hour = new Date().getHours();
-    if (hour >= 19 || hour < 6) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  }
-  checkDarkMode();
-
-  // Galeri lightbox
-  const gallery = document.getElementById('gallery');
-  const lightboxOverlay = document.getElementById('lightboxOverlay');
-  const lightboxImage = document.getElementById('lightboxImage');
-  const lightboxPrev = document.getElementById('lightboxPrev');
-  const lightboxNext = document.getElementById('lightboxNext');
-  let currentImageIndex = 0;
-  const images = Array.from(gallery.querySelectorAll('img'));
-
-  function openLightbox(index) {
-    currentImageIndex = index;
-    lightboxImage.src = images[currentImageIndex].src;
-    lightboxOverlay.classList.add('active');
-    lightboxOverlay.focus();
-  }
-
-  function closeLightbox() {
-    lightboxOverlay.classList.remove('active');
-  }
-
-  function showPrevImage() {
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    lightboxImage.src = images[currentImageIndex].src;
-  }
-
-  function showNextImage() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    lightboxImage.src = images[currentImageIndex].src;
-  }
-
-  // Event listeners
-  images.forEach((img, i) => {
-    img.addEventListener('click', () => openLightbox(i));
-    img.addEventListener('keydown', (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openLightbox(i);
-      }
-    });
-  });
-
-  lightboxOverlay.addEventListener('click', (e) => {
-    if (e.target === lightboxOverlay || e.target === lightboxImage) {
-      closeLightbox();
-    }
-  });
-
-  lightboxPrev.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showPrevImage();
-  });
-  lightboxNext.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showNextImage();
-  });
-
-  // Keyboard controls for lightbox
-  lightboxOverlay.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-      showPrevImage();
-    } else if (e.key === 'ArrowRight') {
-      showNextImage();
-    } else if (e.key === 'Escape') {
-      closeLightbox();
-    }
-  });
-
-  // Interactive hearts on hover on body
-  document.body.addEventListener('mousemove', (e) => {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.style.left = e.clientX + 'px';
-    heart.style.top = e.clientY + 'px';
-    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
-  });
 </script>
 
 </body>
